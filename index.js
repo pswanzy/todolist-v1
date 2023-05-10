@@ -16,6 +16,8 @@ let workItems = ["Show Up"];
 let funItems = ["Watch TV", "Read a Book"];
 // set an empty array for new weekend items
 let weekendItems = ["Relax", "Watch TV"];
+//final exam items
+let finalExamItems = ["BUS320","ICS360","ICS385","BLAW200"];
 
 // set EJS as the viewing engine to display html
 app.set('view engine', 'ejs');
@@ -60,6 +62,12 @@ app.post("/", function(req, res) {
         weekendItems.push(item);
         res.redirect("/weekend");
     }
+      
+    // if route is finals, add to finals list
+    else if (req.body.list === "Finals") {
+      finalExamItems.push(item);
+      res.redirect("/finals");
+    }
 
     else {
         items.push(item);
@@ -69,21 +77,22 @@ app.post("/", function(req, res) {
 
 // display work to do list on the localhost:3000/work route!
 app.get("/work", function(req, res){
-
-  let day = date.getDate();
     res.render("list", {listTitle: "Work To Do List", newListItems: workItems})
 });
 
 // display fun to do list
 app.get("/fun", function(req, res){
-
-  let day = date.getDate();
     res.render("list", {listTitle: "Fun To Do List", newListItems: funItems})
 });
 
 // display weekend to do list
 app.get("/weekend", function(req, res){
     res.render("list", {listTitle: "Weekend To Do List", newListItems: weekendItems})
+});
+
+//final exam list items
+app.get("/finals", function (req, res){
+  res.render("list", {listTitle: "Final Exam List", newListItems: finalExamItems})
 });
 
 app.listen(3000, function() {
